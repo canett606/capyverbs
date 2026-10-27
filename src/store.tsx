@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { clearProgress, loadSnapshot, replaceAll, saveMeta as persistMeta, saveProfile as persistProfile, saveVerb, toFile } from "./db";
+import { activeDisplayName, clearProgress, loadSnapshot, replaceAll, saveMeta as persistMeta, saveProfile as persistProfile, saveVerb, toFile } from "./db";
 import { validateProgress } from "../shared/progressFile";
 import { defaultMeta, defaultProfile } from "../shared/progressFile";
 import { COSMETICS, isUnlocked, rewardStats } from "../shared/rewards";
@@ -49,9 +49,18 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     loadSnapshot()
-      .then((snapshot) => {
-        setProfile(snapshot.profile);
-        setMeta(snapshot.meta);
+      .then(async (snapshot) => {
+        let profile = snapshot.profile;
+        let meta = snapshot.meta;
+        const who = activeDisplayName();
+        if (who && !meta.named) {
+          profile = { ...profile, nickname: who };
+          meta = { ...meta, named: true };
+          await persistProfile(profile);
+          await persistMeta(meta);
+        }
+        setProfile(profile);
+        setMeta(meta);
         setVerbs(Object.fromEntries(snapshot.verbs.map((verb) => [verb.verbId, verb])));
       })
       .finally(() => setLoaded(true));

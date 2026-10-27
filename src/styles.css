@@ -68,6 +68,13 @@ h1 { font-size: 1.8rem; margin: 0.2rem 0 0.6rem; }
 
 .ghost { background: transparent; color: #fffaf3; border-color: #fffaf3; }
 
+a.ghost {
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+  text-align: center;
+}
+
 .card .ghost, .question .ghost { color: #1b2a28; border-color: #1b2a28; }
 
 .danger { background: #9d2c3a; color: white; width: 100%; }

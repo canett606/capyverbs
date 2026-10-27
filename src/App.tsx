@@ -62,14 +62,14 @@ function Shell() {
 }
 
 function Home({ onGo }: { onGo: (path: string) => void }) {
-  const { profile } = useStore();
+  const { profile, meta } = useStore();
   return (
     <section>
       <header className="hero">
         <Capybara color={profile.color} hat={profile.hat} accessory={profile.accessory} mood="happy" label="CapyVerbs" />
-        <p className="eyebrow">Laguna de verbos</p>
+        <p className="eyebrow">{meta.named ? profile.nickname : "Laguna de verbos"}</p>
         <h1>CapyVerbs</h1>
-        <p>75 verbos irregulares. Una sesión corta, en este móvil, sin cuentas ni esperas.</p>
+        <p>75 verbos irregulares. El repaso de {meta.named ? profile.nickname : "cada persona"} se queda en este aparato.</p>
       </header>
       <nav className="menu" aria-label="Modos">
         <button className="primary" type="button" onClick={() => onGo("/aprender")}>
@@ -98,6 +98,9 @@ function Home({ onGo }: { onGo: (path: string) => void }) {
         <button className="ghost" type="button" onClick={() => onGo("/ajustes")}>
           Ajustes
         </button>
+        <a className="ghost" href="https://canett606.github.io/capyprovincias/">
+          Otra persona
+        </a>
       </div>
     </section>
   );
