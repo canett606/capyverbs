@@ -1,0 +1,4 @@
+project_id = "capyverbs"
+
+[functions.duel]
+verify_jwt = true
